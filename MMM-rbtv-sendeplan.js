@@ -75,6 +75,7 @@ Module.register('MMM-rbtv-sendeplan', {
     getDom: function () {
         const wrapper = document.createElement('div');
         if (!this.shows.length) return wrapper;
+        wrapper.classList.add('rbtv-sp');
 
         this.shows.forEach((show, i) => {
             wrapper.innerHTML += showTemplate.call(this, show, i);
