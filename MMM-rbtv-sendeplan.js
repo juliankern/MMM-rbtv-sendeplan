@@ -51,8 +51,8 @@ Module.register('MMM-rbtv-sendeplan', {
         maxNewItems: 5,
         // maxOldItems: 1,
         initialLoadDelay: 0,
-        showWidth: '500px',
-        imageWidth: '200px',
+        showWidth: '400px',
+        imageWidth: '100px',
         imageGrayscale: false,
     },
 
