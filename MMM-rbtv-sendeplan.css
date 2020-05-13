@@ -74,17 +74,17 @@
 } 
 
 .rbtv-sp--show--time {
-    font-size: 1rem;
+    font-size: .75rem;
     font-weight: 200;
 }
 
 .rbtv-sp--show--description {
-    font-size: 1rem;
+    font-size: .75rem;
     opacity: .75rem;
 }
 
 .rbtv-sp--show--title {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
 }
 
 .rbtv-sp--show--duration {

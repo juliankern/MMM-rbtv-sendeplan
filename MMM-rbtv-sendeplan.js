@@ -31,7 +31,14 @@ const showTemplate = function (show, i) { return `
         class="rbtv-sp--show${i === 0 ? ' rbtv-sp--show__current':''}${show.type === 'premiere' ? ' rbtv-sp--show__premiere':''}${show.type === 'live' ? ' rbtv-sp--show__live':''}"
         style="width:${this.config.showWidth}"
     >
-        <div class="rbtv-sp--show--image${this.config.imageGrayscale ? ' rbtv-sp--show--image__grayscale' : ''}" style="width:${this.config.imageWidth};background-image:url(${show.episodeImages[1].url})"></div>
+        ${
+            this.config.showImages ? `
+                <div 
+                    class="rbtv-sp--show--image${this.config.imageGrayscale ? ' rbtv-sp--show--image__grayscale' : ''}" 
+                    style="width:${this.config.imageWidth};background-image:url(${show.episodeImages[1].url})"
+                ></div>
+            `: ''
+        }
         <div class="rbtv-sp--show--content">
             <div class="rbtv-sp--show--time">
                 ${i === 0 ? `<strong>JETZT</strong> (seit ${formatDateToTime(show.timeStart)})` : formatDateToTime(show.timeStart)}
@@ -54,6 +61,7 @@ Module.register('MMM-rbtv-sendeplan', {
         showWidth: '400px',
         imageWidth: '100px',
         imageGrayscale: false,
+        showImages: true,
     },
 
     start: function () {
