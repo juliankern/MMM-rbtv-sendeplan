@@ -1,0 +1,66 @@
+.rbtv-sp--show {
+    line-height: 1.2;
+    font-size: 1rem;
+
+    background-color: rgb(20,20,20);
+    border-radius: 5px;
+
+    display: flex;
+}
+
+.rbtv-sp--show__current {
+    background-color: rgb(25,25,25);
+    transform: scale(1.03);
+    margin-bottom: 1.2rem;
+}
+
+.rbtv-sp--show + .rbtv-sp--show {
+    margin-top: 1rem;
+}
+
+.rbtv-sp--show__live .rbtv-sp--show--time::before,
+.rbtv-sp--show__premiere .rbtv-sp--show--time::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.rbtv-sp--show__live .rbtv-sp--show--time::before {
+    background-color: red;
+}
+
+.rbtv-sp--show__premiere .rbtv-sp--show--time::before {
+    background-color: #1e90ff;
+}
+
+.rbtv-sp--show--content {
+    padding: .5rem;
+}
+
+.rbtv-sp--show--image {
+    background-size: cover;
+    flex: 0 0 50%;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.rbtv-sp--show--time {
+    font-size: 1rem;
+    font-weight: 200;
+}
+
+.rbtv-sp--show--description {
+    font-size: 1rem;
+    opacity: .75rem;
+}
+
+.rbtv-sp--show--title {
+    font-size: 2rem;
+}
+
+.rbtv-sp--show--duration {
+    display: inline-block;
+    opacity: .5rem;
+}

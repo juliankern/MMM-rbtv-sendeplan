@@ -1,0 +1,124 @@
+/* eslint-disable */
+/* Magic Mirror
+ * Module: RBTV Sendeplan
+ *
+ * By Julian Kern https://juliankern.com
+ * MIT Licensed.
+ */
+
+const formatDateToTime = (date) => {
+    let hours = '' + new Date(date).getHours();
+    let minutes = '' + new Date(date).getMinutes();
+
+    if (hours.length === 1) hours = '0' + hours;
+    if (minutes.length === 1) minutes = '0' + minutes;
+
+    return `${hours}:${minutes}`;
+}
+
+const formatSecondsToDuration = (seconds) => {
+    const allMinutes = seconds / 60;
+    const hours = Math.floor(allMinutes / 60);
+    const remainingMinutes = allMinutes - (hours * 60);
+
+    if (!hours) return `${remainingMinutes} Min`;
+
+    return `${hours} Std ${remainingMinutes} Min`;
+}
+
+const showTemplate = function (show, i) { return `
+    <div 
+        class="rbtv-sp--show${i === 0 ? ' rbtv-sp--show__current':''}${show.type === 'premiere' ? ' rbtv-sp--show__premiere':''}${show.type === 'live' ? ' rbtv-sp--show__live':''}"
+        style="max-width:${this.config.maxWidth}"
+    >
+        <div class="rbtv-sp--show--image" style="max-width:${this.config.maxImageWidth};background-image:url(${show.episodeImages[1].url})"></div>
+        <div class="rbtv-sp--show--content">
+            <div class="rbtv-sp--show--time">
+                ${i === 0 ? `JETZT (seit ${formatDateToTime(show.timeStart)})` : formatDateToTime(show.timeStart)}
+                <div class="rbtv-sp--show--duration"> - ${formatSecondsToDuration(show.duration)}</div>
+            </div>
+            <div class="rbtv-sp--show--title">${show.title}</div>
+            <div class="rbtv-sp--show--descrition">${show.topic}</div>
+        </div>
+    </div>
+`};
+
+Module.register('MMM-rbtv-sendeplan', {
+
+    // Default module config.
+    defaults: {
+        updateInterval: 10 * 1000,
+        maxNewItems: 5,
+        // maxOldItems: 1,
+        initialLoadDelay: 0,
+        maxWidth: '500px',
+        maxImageWidth: '200px',
+    },
+
+    start: function () {
+        Log.info('Starting module: ' + this.name);
+
+        this.shows = [];
+
+        this.scheduleUpdate(this.config.initialLoadDelay);
+    },
+
+    getDom: function () {
+        const wrapper = document.createElement('div');
+        if (!this.shows.length) return wrapper;
+
+        this.shows.forEach((show, i) => {
+            wrapper.innerHTML += showTemplate.call(this, show, i);
+        });
+
+        return wrapper;
+    },
+
+    getStyles: function () {
+        return ['MMM-rbtv-sendeplan.css'];
+    },
+
+    scheduleUpdate: function (delay) {
+        let nextLoad = this.config.updateInterval;
+        if (typeof delay !== "undefined" && delay >= 0) {
+            nextLoad = delay;
+        }
+
+        setTimeout(() => {
+            this.updateSendeplan();
+        }, nextLoad);
+    },
+
+    updateSendeplan: async function () {
+        const result = await this.request(`/schedule/normalized?startDay=${Math.round(Date.now() / 1000)}&endDay=${Math.round((Date.now() + (14 * 24 * 60 * 60 * 1000)) / 1000)}`);
+
+        const allShows = result.data
+            .map(day => day.elements)
+            .flat()
+            .filter(show => new Date(show.timeEnd).getTime() > Date.now())
+            .slice(0, this.config.maxNewItems + 1);
+
+        this.shows = allShows;
+        this.updateDom();
+    },
+
+    request: function(path) {
+        const baseUrl = 'https://api.rocketbeans.tv/v1';
+
+        let rq = new XMLHttpRequest();
+
+        return new Promise((resolve, reject) => {
+            rq.open('GET', baseUrl + path, true);
+            rq.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    if (this.status === 200) {
+                        return resolve(JSON.parse(this.response));
+                    }
+
+                    reject();
+                }
+            };
+            rq.send();
+        })
+    }
+});
