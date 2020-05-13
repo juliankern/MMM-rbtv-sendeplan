@@ -6,6 +6,12 @@
     border-radius: 5px;
 
     display: flex;
+    justify-content: space-between;
+}
+
+.region.right .rbtv-sp--show {
+    text-align: left;
+    flex-direction: row-reverse;
 }
 
 .rbtv-sp--show__current {
@@ -37,14 +43,21 @@
 
 .rbtv-sp--show--content {
     padding: .5rem;
+    flex: 1;
 }
 
 .rbtv-sp--show--image {
     background-size: cover;
-    flex: 0 0 50%;
+    flex: 0 0 40%;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
 }
+
+.region.right .rbtv-sp--show--image {
+    border-radius: 0;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+} 
 
 .rbtv-sp--show--time {
     font-size: 1rem;
