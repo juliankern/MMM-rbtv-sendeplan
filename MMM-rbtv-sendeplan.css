@@ -7,6 +7,9 @@
 
     display: flex;
     justify-content: space-between;
+    overflow: hidden;
+
+    margin: 0 5px;
 }
 
 .region.right .rbtv-sp--show {
@@ -15,9 +18,20 @@
 }
 
 .rbtv-sp--show__current {
-    background-color: rgb(25,25,25);
-    transform: scale(1.03);
+    background-color: rgb(50,50,50);
+    /* transform: scale(1.03); */
     margin-bottom: 1.2rem;
+    border: 1px solid rgb(120,120,120);
+    border-left: 5px solid rgb(120,120,120);
+    margin-left: 0;
+}
+
+.rbtv-sp--show__current.rbtv-sp--show__live {
+    border-left-color: red;
+}
+
+.rbtv-sp--show__current.rbtv-sp--show__premiere {
+    border-left-color: #1e90ff;
 }
 
 .rbtv-sp--show + .rbtv-sp--show {
@@ -49,14 +63,14 @@
 .rbtv-sp--show--image {
     background-size: cover;
     flex: 0 0 40%;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
+}
+
+.rbtv-sp--show--image__grayscale {
+    filter: grayscale(.8) brightness(.5);
 }
 
 .region.right .rbtv-sp--show--image {
     border-radius: 0;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
 } 
 
 .rbtv-sp--show--time {
@@ -76,4 +90,5 @@
 .rbtv-sp--show--duration {
     display: inline-block;
     opacity: .5rem;
+    float: right;
 }

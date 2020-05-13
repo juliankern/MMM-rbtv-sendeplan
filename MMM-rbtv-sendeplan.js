@@ -29,13 +29,13 @@ const formatSecondsToDuration = (seconds) => {
 const showTemplate = function (show, i) { return `
     <div 
         class="rbtv-sp--show${i === 0 ? ' rbtv-sp--show__current':''}${show.type === 'premiere' ? ' rbtv-sp--show__premiere':''}${show.type === 'live' ? ' rbtv-sp--show__live':''}"
-        style="max-width:${this.config.maxWidth}"
+        style="width:${this.config.showWidth}"
     >
-        <div class="rbtv-sp--show--image" style="max-width:${this.config.maxImageWidth};background-image:url(${show.episodeImages[1].url})"></div>
+        <div class="rbtv-sp--show--image${this.config.imageGrayscale ? ' rbtv-sp--show--image__grayscale' : ''}" style="width:${this.config.imageWidth};background-image:url(${show.episodeImages[1].url})"></div>
         <div class="rbtv-sp--show--content">
             <div class="rbtv-sp--show--time">
-                ${i === 0 ? `JETZT (seit ${formatDateToTime(show.timeStart)})` : formatDateToTime(show.timeStart)}
-                <div class="rbtv-sp--show--duration"> - ${formatSecondsToDuration(show.duration)}</div>
+                ${i === 0 ? `<strong>JETZT</strong> (seit ${formatDateToTime(show.timeStart)})` : formatDateToTime(show.timeStart)}
+                <div class="rbtv-sp--show--duration">${formatSecondsToDuration(show.duration)}</div>
             </div>
             <div class="rbtv-sp--show--title">${show.title}</div>
             <div class="rbtv-sp--show--descrition">${show.topic}</div>
@@ -47,12 +47,13 @@ Module.register('MMM-rbtv-sendeplan', {
 
     // Default module config.
     defaults: {
-        updateInterval: 10 * 1000,
+        updateInterval: 30 * 1000,
         maxNewItems: 5,
         // maxOldItems: 1,
         initialLoadDelay: 0,
-        maxWidth: '500px',
-        maxImageWidth: '200px',
+        showWidth: '500px',
+        imageWidth: '200px',
+        imageGrayscale: false,
     },
 
     start: function () {
@@ -100,6 +101,8 @@ Module.register('MMM-rbtv-sendeplan', {
 
         this.shows = allShows;
         this.updateDom();
+
+        this.scheduleUpdate();
     },
 
     request: function(path) {
