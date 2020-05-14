@@ -32,7 +32,7 @@ const showTemplate = function (show, i) { return `
         style="width:${this.config.showWidth}"
     >
         ${
-            this.config.showImages ? `
+            this.config.showImages && show.episodeImages.length > 1 ? `
                 <div 
                     class="rbtv-sp--show--image${this.config.imageGrayscale ? ' rbtv-sp--show--image__grayscale' : ''}" 
                     style="width:${this.config.imageWidth};background-image:url(${show.episodeImages[1].url})"
@@ -94,6 +94,8 @@ Module.register('MMM-rbtv-sendeplan', {
             nextLoad = delay;
         }
 
+        Log.info(`Scheduling update for ${this.name} in ${nextLoad}ms`);
+
         setTimeout(() => {
             this.updateSendeplan();
         }, nextLoad);
@@ -109,6 +111,7 @@ Module.register('MMM-rbtv-sendeplan', {
             .slice(0, this.config.maxNewItems + 1);
 
         this.shows = allShows;
+        Log.info(`updated shows for ${this.name}`);
         this.updateDom();
 
         this.scheduleUpdate();
