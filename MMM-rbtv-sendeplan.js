@@ -45,7 +45,7 @@ const showTemplate = function (show, i) { return `
                 <div class="rbtv-sp--show--duration">${formatSecondsToDuration(show.duration)}</div>
             </div>
             <div class="rbtv-sp--show--title">${show.title}</div>
-            <div class="rbtv-sp--show--descrition">${show.topic}</div>
+            <div class="rbtv-sp--show--description">${show.topic}</div>
         </div>
     </div>
 `};
@@ -62,6 +62,7 @@ Module.register('MMM-rbtv-sendeplan', {
         imageWidth: '100px',
         imageGrayscale: false,
         showImages: true,
+        fontScale: 1
     },
 
     start: function () {
@@ -75,6 +76,8 @@ Module.register('MMM-rbtv-sendeplan', {
     getDom: function () {
         const wrapper = document.createElement('div');
         if (!this.shows.length) return wrapper;
+
+        wrapper.style.setProperty('--font-scale', this.config.fontScale);
         wrapper.classList.add('rbtv-sp');
 
         this.shows.forEach((show, i) => {
@@ -102,7 +105,7 @@ Module.register('MMM-rbtv-sendeplan', {
     },
 
     updateSendeplan: async function () {
-        const result = await this.request(`/schedule/normalized?startDay=${Math.round(Date.now() / 1000)}&endDay=${Math.round((Date.now() + (14 * 24 * 60 * 60 * 1000)) / 1000)}`);
+        const result = await this.request(`/schedule/normalized?startDay=${Math.round((Date.now() - (24 * 60 * 60 * 1000)) / 1000)}&endDay=${Math.round((Date.now() + (14 * 24 * 60 * 60 * 1000)) / 1000)}`);
 
         const allShows = result.data
             .map(day => day.elements)

@@ -1,3 +1,7 @@
+.rbtv-sp {
+    --font-scale: 1;
+}
+
 .rbtv-sp::after {
     content: "";
     position: absolute;
@@ -7,7 +11,7 @@
 
 .rbtv-sp--show {
     line-height: 1.2;
-    font-size: 1rem;
+    font-size: calc(1.25rem * var(--font-scale));
 
     background-color: rgb(20,20,20);
     border-radius: 5px;
@@ -80,22 +84,23 @@
 } 
 
 .rbtv-sp--show--time {
-    font-size: .75rem;
+    font-size: calc(1rem * var(--font-scale));
     font-weight: 200;
 }
 
 .rbtv-sp--show--description {
-    font-size: .75rem;
-    opacity: .75rem;
+    font-size: calc(1rem * var(--font-scale));
+    font-weight: 200;
+    opacity: .75;
 }
 
 .rbtv-sp--show--title {
-    font-size: 1.5rem;
+    font-size: calc(2.25rem * var(--font-scale));
     color: #fff;
 }
 
 .rbtv-sp--show--duration {
     display: inline-block;
-    opacity: .5rem;
+    opacity: .5;
     float: right;
 }
