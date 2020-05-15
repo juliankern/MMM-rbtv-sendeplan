@@ -25,9 +25,8 @@
 }
 
 .rbtv-sp--show__current {
-    background-color: rgb(50,50,50);
     /* transform: scale(1.03); */
-    margin-bottom: 1.2rem;
+    /* margin-bottom: 1.2rem; */
     border: 1px solid rgb(120,120,120);
     border-left: 5px solid rgb(120,120,120);
     margin-left: 0;
@@ -92,6 +91,7 @@
 
 .rbtv-sp--show--title {
     font-size: 1.5rem;
+    color: #fff;
 }
 
 .rbtv-sp--show--duration {
