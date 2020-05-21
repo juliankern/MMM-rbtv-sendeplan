@@ -105,7 +105,15 @@ Module.register('MMM-rbtv-sendeplan', {
     },
 
     updateSendeplan: async function () {
-        const result = await this.request(`/schedule/normalized?startDay=${Math.round((Date.now() - (24 * 60 * 60 * 1000)) / 1000)}&endDay=${Math.round((Date.now() + (14 * 24 * 60 * 60 * 1000)) / 1000)}`);
+        let result;
+
+        try {
+            result = await this.request(`/schedule/normalized?startDay=${Math.round((Date.now() - (24 * 60 * 60 * 1000)) / 1000)}&endDay=${Math.round((Date.now() + (14 * 24 * 60 * 60 * 1000)) / 1000)}`);
+        } catch (e) {
+            Log.error('Encountered error loading shows, retrying...');
+
+            return this.scheduleUpdate(); 
+        }
 
         const allShows = result.data
             .map(day => day.elements)
